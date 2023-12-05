@@ -2,7 +2,7 @@
 
 $dbhost = 'localhost';
 $dbuser = 'root';
-$dbpass = '1210855993';
+$dbpass = '';
 $database='lms';
 $con = mysqli_connect($dbhost, $dbuser, $dbpass,$database);
 
