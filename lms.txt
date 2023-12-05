@@ -1,0 +1,78 @@
+create database lms;
+use lms;
+create table students(
+id int primary key auto_increment,
+fname varchar(50),
+lname varchar(50),
+roll int,
+reg int unique,
+email varchar(50) unique,
+username varchar(50) unique,
+password varchar(50),
+phone varchar(11)
+);
+drop table students;
+ALTER TABLE students AUTO_INCREMENT=1001; 
+select * from students;
+
+create table libraian(
+id int primary key auto_increment,
+firstname varchar(50),
+lastname varchar(50),
+email varchar(50) unique,
+username varchar(50) unique,
+password varchar(50) 
+);
+drop table libraian;
+ALTER TABLE students AUTO_INCREMENT=5001; 
+insert into libraian (firstname,lastname,email,username,password) values
+('Rahim','Mia','rahim@gmail.com','rahim_mia','1234'),
+('karim','Uddin','karim@gmail.com','karim_uddin','5555');
+select * from libraian;
+create table books(
+book_id int primary key auto_increment,
+book_name varchar(50),
+book_author varchar(50),
+book_purchase_date varchar(50),
+book_qty int,
+available_qty int
+);
+select * from books;
+drop table books;
+ALTER TABLE students AUTO_INCREMENT=7001; 
+delete from books where book_id=4;
+
+create table issue_books(
+id int primary key auto_increment,
+student_id int,
+book_id int,
+book_issue_date varchar(50),
+book_issue_time varchar(50),
+book_return_date varchar(50),
+
+foreign key(student_id)references students(id),
+foreign key(book_id)references books(book_id)
+);
+select *from issue_books where book_return_date is null;
+insert into issue_books(student_id,book_id,book_issue_date) values(1001,7,'10-03-22');
+drop table issue_books;
+ -- issue books command
+select book_issue_date,books.book_name from books 
+inner join issue_books on issue_books.book_id=books.book_id
+ where issue_books.student_id=1001;
+ 
+ -- return books command
+ select a.id, b.fname,b.lname,b.roll,a.book_issue_date,a.book_issue_time,c.book_name
+ from issue_books as a inner join students as b
+ on b.id=a.student_id
+ inner join books as c on c.book_id=a.book_id;
+ 
+
+ select students.fname,students.lname,students.roll,issue_books.book_issue_date,issue_books.book_issue_time,books.book_name,issue_books.book_return_date
+ from issue_books inner join students 
+ on students.id=issue_books.student_id
+ inner join books  on books.book_id=issue_books.book_id
+ where issue_books.book_return_date is null;
+
+
+update issue_books set book_return_date='' where id='';
